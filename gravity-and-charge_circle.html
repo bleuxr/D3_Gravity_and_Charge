@@ -87,6 +87,11 @@
         var charge = document.getElementById('charge').value;
         changeForce(gravity,charge);
     }
+
+    function clearAll(){
+        svg.selectAll('circle')
+            .remove();
+    }
 </script>
 
 <div class="control-group">
@@ -109,6 +114,7 @@
     gravity: <input type="text" id="gravity" value="-30">
     charge: <input type="text" id="charge" value="0.1">
     <button onclick="changeForceByInput()">Change</button>
+    <button onclick="clearAll()">清空</button>
 </div>
 
 </body>
