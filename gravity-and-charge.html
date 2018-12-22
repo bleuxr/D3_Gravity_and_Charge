@@ -30,7 +30,8 @@
             .attr("height", h);
 
     var textnum = 2;
-    var TextorCircle=1;
+    var TextorCircle = 1;
+    var c10 = d3.scale.category10();
 
     var texts = [
         "hello",
@@ -43,7 +44,8 @@
         svg.selectAll("text")
             .attr("x", function (d) {return d.x;})
             .attr("y", function (d) {return d.y;})
-            .style('fill', function(d){return changeColor(d.x,d.y)});
+            //根据位置变换颜色
+            //.style('fill', function(d){return changeColor(d.x,d.y)});
     });
 
     
@@ -62,6 +64,9 @@
             .text(function(){
                 count++;
                 return texts[count%textnum];
+            })
+            .style('fill',function(d){
+                return c10(count%textnum);
             })
 
             .attr("font-size", "2px")
