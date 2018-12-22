@@ -26,8 +26,8 @@
     var w = 1200, h = 600,
         force = d3.layout.force()
             .size([w ,h])
-            .gravity(0)
-            .charge(0)
+            .gravity(0.1)
+            .charge(-30)
             .friction(0.7);
 
     var c10=d3.scale.category10();
@@ -83,9 +83,9 @@
     }
 
     function changeForceByInput(){
+        var charge = document.getElementById('charge').value;        
         var gravity = document.getElementById('gravity').value;
-        var charge = document.getElementById('charge').value;
-        changeForce(gravity,charge);
+        changeForce(charge,gravity);
     }
 
     function clearAll(){
@@ -110,10 +110,10 @@
     <button onclick="changeForce(-30, 0.1)">
         Gravity with Repulsion
     </button>    
-    <br>
-    gravity: <input type="text" id="gravity" value="-30">
-    charge: <input type="text" id="charge" value="0.1">
-    <button onclick="changeForceByInput()">Change</button>
+    <br>    
+    charge: <input type="text" id="charge" value="-30">
+    gravity: <input type="text" id="gravity" value="0.1">
+    <button onclick="changeForceByInput()">改变</button>
     <button onclick="clearAll()">清空</button>
 </div>
 
