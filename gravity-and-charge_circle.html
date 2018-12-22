@@ -30,6 +30,9 @@
             .charge(0)
             .friction(0.7);
 
+    var c10=d3.scale.category10();
+    var count=0;
+
     var svg = d3.select("body")
         .append("svg")
             .attr("width", w)
@@ -39,12 +42,13 @@
         svg.selectAll("circle")
             .attr("cx", function (d) {return d.x;})
             .attr("cy", function (d) {return d.y;})
-            .style('fill', function(d){
-                if(d.y > 250 && d.y <350)
-                    return "steelblue";
-                else
-                    return "pink";
-            });
+
+            // .style('fill', function(d){
+            //     if(d.y > 250 && d.y <350)
+            //         return "steelblue";
+            //     else
+            //         return "pink";
+            // });
     });
 
     svg.on("mousemove", function () {
@@ -57,6 +61,9 @@
             .attr("cx", function (d) {return d.x;})
             .attr("cy", function (d) {return d.y;})
             .attr("r", 1e-6)
+            .style('fill',function(d){
+                return c10(count++%10);
+            })
         .transition()
             .attr("r", 4.5)
         .transition()
