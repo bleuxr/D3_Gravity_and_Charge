@@ -111,7 +111,7 @@
 
     function changeTexts(){
         var str = document.getElementById('in').value;
-        var res=str.split(" ");
+        var res=str.split("\n");
         texts=res;
         textnum=res.length;
     }
@@ -155,7 +155,7 @@
 </div>
 
 <div>
-    <textarea name="" id="in" cols="30" rows="10">enter words divided by blankspace</textarea>
+    <textarea name="" id="in" cols="30" rows="10">enter words divided by newline</textarea>
     <button onclick="changeTexts()">
         更换文字
     </button>
