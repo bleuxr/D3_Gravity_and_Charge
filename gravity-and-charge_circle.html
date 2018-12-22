@@ -23,13 +23,7 @@
 <body>
 <a href="gravity-and-charge.html"><button>跳转到Text</button></a>
 <script type="text/javascript">
-    var w = 1200, h = 600,
-        force = d3.layout.force()
-            .size([w ,h])
-            .gravity(0.1)
-            .charge(-30)
-            .friction(0.7);
-
+    //初始参数设置
     var category=d3.scale.category20c();
     var categoryNumber=20;
     var count=0;
@@ -37,6 +31,13 @@
     var CircleColor="pink";
     var delaytime=7000;
     var CircleR=4.5;
+
+    var w = 1200, h = 600,
+        force = d3.layout.force()
+            .size([w ,h])
+            .gravity(0.1)
+            .charge(-30)
+            .friction(0.7);
 
     var svg = d3.select("body")
         .append("svg")
