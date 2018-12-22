@@ -29,13 +29,16 @@
             .attr("width", w)
             .attr("height", h);
 
-    var textnum = 2;
+    var textnum = 5;
     var TextorCircle = 1;
     var c10 = d3.scale.category10();
 
     var texts = [
-        "hello",
-        "world"
+        "Elephant",
+        "Giraffe",
+        "Shark",
+        "Lion",
+        "Tiger"
     ]
 
     var count=0;
@@ -84,6 +87,7 @@
         force.start();
     });
 
+    //根据位置改变颜色，没有用到
     function changeColor(x,y){
         x-=600;
         y-=300;
