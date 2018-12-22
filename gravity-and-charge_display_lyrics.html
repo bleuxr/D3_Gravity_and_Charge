@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
+    <title>Gravity and Charge</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script type="text/javascript" src="d3.js"></script>
+
+</head>
+
+<body>
+<a href="gravity-and-charge.html"><button>跳转到Texts</button></a>
+<script type="text/javascript">
+    var w = 1200, h = 600,
+        force = d3.layout.force()
+            .size([w ,h])
+            .gravity(-0.01)
+            .charge(-100)
+            .friction(0.7);
+
+    var svg = d3.select("body")
+        .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+    
+    var TextorCircle = 1;
+    var c10 = d3.scale.category10();
+
+    var texts = [
+        "ElephantSincerity Is Scary-The 1975",
+        "[Verse 1]",
+        "And irony is okay, I suppose, culture is to blame",
+        "You try and mask your pain in the most postmodern way",
+        "You lack substance when you say",
+        "Something like, Oh, what a shame",
+        "It's just a self-referential way that stops you having to be human",
+        "I'm assuming you'll balloon when you remove the dirty spoon",
+        "And start consuming like a human, that's what I am assuming",
+    ]
+    var textnum = texts.length;
+
+    var count=0;
+
+    force.on("tick", function () {
+        svg.selectAll("text")
+            .attr("x", function (d) {return d.x;})
+            .attr("y", function (d) {return d.y;})
+            //根据位置变换颜色
+            //.style('fill', function(d){return changeColor(d.x,d.y)});
+    });
+
+    var node0={x:w/2, y:h/2};
+    svg.append("text")
+            .data([node0])
+        .attr("class", "node")
+        .attr("x", function (d) {return d.x;})
+        .attr("y", function (d) {return d.y;})
+        .text("单击显示歌词")
+        .style('fill',"steelblue")
+        .attr("font-size", "2px")
+        .transition()
+            .attr("font-size", "20px")
+        .transition()
+            .delay(7000)
+            .attr("font-size", "0px")
+            .each("end", function () {
+                force.nodes().shift();
+            })
+            .remove();
+    force.nodes().push(node0);
+    force.start();
+
+    svg.on("click", function () {
+        var point = d3.mouse(this),
+            node = {x: point[0], y: point[1]};
+            //  node = {x:600, y:300}
+
+        svg.append("text")
+                .data([node])
+            .attr("class", "node")
+            .attr("x", function (d) {return d.x;})
+            .attr("y", function (d) {return d.y;})
+
+            .text(function(){
+                count++;
+                return texts[count%textnum];
+            })
+            .style('fill',function(d){
+                return c10(count%textnum);
+            })
+
+            .attr("font-size", "2px")
+        .transition()
+            .attr("font-size", "20px")
+        .transition()
+            .delay(7000)
+            .attr("font-size", "0px")
+            .each("end", function () {
+                force.nodes().shift();
+            })
+            .remove();
+
+        force.nodes().push(node);
+        force.start();
+    });
+
+    function changeForce(charge, gravity) {
+        force.charge(charge).gravity(gravity);
+    }
+
+    function changeTexts(){
+        var str = document.getElementById('in').value;
+        var res=str.split("\n");
+        texts=res;
+        textnum=res.length;
+    }
+
+    function changeForceByInput(){
+        var charge = document.getElementById('charge').value;        
+        var gravity = document.getElementById('gravity').value;
+        changeForce(charge,gravity);
+    }
+
+    function clearAll(){
+        svg.selectAll('text')
+            .remove();
+    }
+</script>
+
+<div class="control-group">
+    <button onclick="changeForce(0, 0)">
+        No Force
+    </button>
+    <button onclick="changeForce(-60, 0)">
+        Mutual Repulsion
+    </button>
+    <button onclick="changeForce(60, 0)">
+        Mutual Attraction
+    </button>
+    <button onclick="changeForce(0, 0.02)">
+        Gravity
+    </button>
+    <button onclick="changeForce(-30, 0.1)">
+        Gravity with Repulsion
+    </button>
+    <button onclick="changeForce(-100, -0.01)">
+        Default
+    </button>  
+    <br>
+    charge: <input type="text" id="charge" value="-30">    
+    gravity: <input type="text" id="gravity" value="0.1">
+    <button onclick="changeForceByInput()">改变</button>
+    <button onclick="clearAll()">清空</button>
+</div>
+
+<div>    
+    <button onclick="changeTexts()">显示歌词</button>
+    <br>
+    <textarea name="" id="in" cols="100" rows="30">Sincerity Is Scary-The 1975
+            [Verse 1]
+            And irony is okay, I suppose, culture is to blame
+            You try and mask your pain in the most postmodern way
+            You lack substance when you say
+            Something like, "Oh, what a shame"
+            It's just a self-referential way that stops you having to be human
+            I'm assuming you'll balloon when you remove the dirty spoon
+            And start consuming like a human, that's what I am assuming
+            [Pre-Chorus]
+            I'm sure that you're not just another girl
+            I'm sure that you're gonna say that I was sexist
+            I feel like you're running out of all the things I liked you for
+            [Chorus]
+            Why can't we be friends, when we are lovers?
+            'Cause it always ends with us hating each other
+            Instead of calling me out, you should be pulling me in
+            I've just got one more thing to say
+            [Verse 2]
+            And why would you believe
+            You could control how you're perceived
+            When at your best you're intermediately
+            Versed in your own feelings?
+            Keep on putting off conceiving
+            It's only you that you're deceiving
+            Oh, don't have a child, don't cramp your style, I'll leave it
+            [Chorus]
+            Why can't we be friends, when we are lovers?
+            'Cause it always ends with us hating each other
+            Instead of calling me out, you should be pulling me in
+            I've just got one more thing to say
+            [Outro]
+            I'm just pissed off because you pied me off
+            After your show when you let go of my hand
+            In front of some sket who wants to bitch on you</textarea>
+
+</div>
+
+</body>
+
+</html>
