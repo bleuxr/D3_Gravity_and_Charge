@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1"/>
+    <title>Gravity and Charge</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script type="text/javascript" src="d3.js"></script>
+
+    <style type="text/css">
+        text {
+            fill: steelblue;
+        }
+    </style>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var w = 1200, h = 600,
+        force = d3.layout.force()
+            .size([w ,h])
+            .gravity(0.02)
+            .charge(-30)
+            .friction(0.7);
+
+    var svg = d3.select("body")
+        .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+    var textnum = 2;
+
+    var texts = [
+        "hello",
+        "world"
+    ]
+
+    var count=0;
+
+    force.on("tick", function () {
+        svg.selectAll("text")
+            .attr("x", function (d) {return d.x;})
+            .attr("y", function (d) {return d.y;})
+            .style('fill', function(d){return changeColor(d.x,d.y)});
+    });
+
+    
+
+    svg.on("mousemove", function () {
+        var point = d3.mouse(this),
+            node = {x: point[0], y: point[1]};
+            //  node = {x:600, y:300}
+
+        svg.append("text")
+                .data([node])
+            .attr("class", "node")
+            .attr("x", function (d) {return d.x;})
+            .attr("y", function (d) {return d.y;})
+
+            .text(function(){
+                count++;
+                return texts[count%textnum];
+            })
+
+            .attr("font-size", "2px")
+        .transition()
+            .attr("font-size", "20px")
+        .transition()
+            .delay(7000)
+            .attr("font-size", "0px")
+            .each("end", function () {
+                force.nodes().shift();
+            })
+            .remove();
+
+        force.nodes().push(node);
+        force.start();
+    });
+
+    function changeColor(x,y){
+        x-=600;
+        y-=300;
+        r2=(x*x+y*y);
+        if(r2>30000){
+            return "steelblue";
+        }
+        else if(r2>10000)
+        {
+            return "pink";
+        }
+        else
+        {
+            return "green";
+        }
+    }
+
+    function changeForce(charge, gravity) {
+        force.charge(charge).gravity(gravity);
+    }
+
+    function changeTexts(){
+        var str = document.getElementById('in').value;
+        var res=str.split(" ");
+        texts=res;
+        textnum=res.length;
+    }
+
+    function changeForceByInput(){
+        var gravity = document.getElementById('gravity').value;
+        var charge = document.getElementById('charge').value;
+        changeForce(gravity,charge);
+    }
+</script>
+
+<div class="control-group">
+    <button onclick="changeForce(0, 0)">
+        No Force
+    </button>
+    <button onclick="changeForce(-60, 0)">
+        Mutual Repulsion
+    </button>
+    <button onclick="changeForce(60, 0)">
+        Mutual Attraction
+    </button>
+    <button onclick="changeForce(0, 0.02)">
+        Gravity
+    </button>
+    <button onclick="changeForce(-30, 0.1)">
+        Gravity with Repulsion
+    </button>
+    <button onclick="changeForce(-30, 0.02)">
+        Default
+    </button>  
+    <br>
+    gravity: <input type="text" id="gravity">
+    charge: <input type="text" id="charge">
+    <button onclick="changeForceByInput()">Change</button>
+</div>
+
+<div>
+    <textarea name="" id="in" cols="30" rows="10">enter words divided by blankspace</textarea>
+    <button onclick="changeTexts()">
+        更换文字
+    </button>
+</div>
+
+</body>
+
+</html>
