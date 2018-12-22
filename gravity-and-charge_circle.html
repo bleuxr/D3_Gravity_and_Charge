@@ -114,9 +114,29 @@
     }
 
     function changeCategory(){
+        var selectCate = document.getElementById('selectCategory').value;
         ColororCategory=1;
-        category=d3.scale.category10();
-        categoryNumber=10;
+        switch (selectCate) {
+            case "0":
+                category=d3.scale.category10();
+                categoryNumber=10;
+                break;
+            case "1":
+                category=d3.scale.category20();
+                categoryNumber=20;
+                break;
+            case "2":
+                category=d3.scale.category20b();
+                categoryNumber=20;
+                break;
+            case "3":
+                category=d3.scale.category20c();
+                categoryNumber=20;
+                break;
+            default:
+                break;
+        }
+
     }
 </script>
 
@@ -147,7 +167,9 @@
     <br>
     <select name="" id="selectCategory">
         <option value="0">Category10</option>
-
+        <option value="1">Category20</option>
+        <option value="2">Category20b</option>
+        <option value="3">Category20c</option>
     </select>
     <button onclick="changeCategory()">改变颜色</button>
     <br>
