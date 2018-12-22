@@ -7,15 +7,15 @@
     <link rel="stylesheet" type="text/css" href="styles.css"/>
     <script type="text/javascript" src="d3.js"></script>
 
-    <style type="text/css">
+    <!-- <style type="text/css">
         text {
             fill: steelblue;
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
-
+<a href="gravity-and-charge.html"><button>跳转到Circle</button></a>
 <script type="text/javascript">
     var w = 1200, h = 600,
         force = d3.layout.force()
@@ -30,6 +30,7 @@
             .attr("height", h);
 
     var textnum = 2;
+    var TextorCircle=1;
 
     var texts = [
         "hello",
