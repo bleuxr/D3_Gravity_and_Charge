@@ -36,6 +36,7 @@
     var ColororCategory=1;
     var CircleColor="pink";
     var delaytime=7000;
+    var CircleR=4.5;
 
     var svg = d3.select("body")
         .append("svg")
@@ -75,7 +76,7 @@
                 }
             })
         .transition()
-            .attr("r", 4.5)
+            .attr("r", CircleR)
         .transition()
             .delay(delaytime)
             .attr("r", 1e-6)
@@ -138,9 +139,50 @@
         }
 
     }
+
+    function changeLayout(){
+        var changeWidth = document.getElementById("changeWidth").value;
+        var changeHeight = document.getElementById("changeHeight").value;
+        force.size([changeWidth,changeHeight])
+        svg.style('width',changeWidth)
+            .style('height',changeHeight)
+    }
+
+    function changeExistedCircleSize(){
+        var existedCircleSize = document.getElementById('existedCircleSize').value;
+        d3.selectAll('circle')
+            .transition()
+                .delay(200)
+                .attr('r',existedCircleSize);
+    }
+
+    function changeCircleSize(){
+        CircleR = document.getElementById('CircleSize').value;
+    }
+
+    function BecomeBigger(){
+        CircleR*=2;
+        d3.selectAll('circle')
+            .transition()
+                .delay(200)
+                .attr('r',CircleR)
+    }
+
+    function BecomeSmaller(){
+        CircleR/=2;
+        d3.selectAll('circle')
+            .transition()
+                .delay(200)
+                .attr('r',CircleR)
+    }
+
 </script>
 
 <div class="control-group">
+    width: <input type="text" id="changeWidth" value="1200">
+    height: <input type="text" id="changeHeight" value="600">
+    <button onclick="changeLayout()">改变画布大小</button>
+    <br>
     <button onclick="changeForce(0, 0)">
         No Force
     </button>
@@ -162,6 +204,12 @@
     <button onclick="changeForceByInput()">改变引力场</button>
     <button onclick="clearAll()">清空</button>
     <br>
+    <input type="text" id="existedCircleSize" value="10"><button onclick="changeExistedCircleSize()">改变现存粒子大小</button>
+    <button onclick="BecomeBigger()">变大</button>
+    <button onclick="BecomeSmaller()">变小</button>
+    <br>
+    <input type="text" id="CircleSize" value="10"><button onclick="changeCircleSize()">改变产生的粒子大小</button>
+    <br>
     <input type="text" id="color" value="pink">
     <button onclick="changeColor()">改变颜色</button>
     <br>
@@ -173,7 +221,7 @@
     </select>
     <button onclick="changeCategory()">改变颜色</button>
     <br>
-    DelayTime: <input type="text" id="delay" value="7000">
+    <input type="text" id="delay" value="7000">
     <button onclick="changeDelayTime()">改变粒子消失时间</button>
 </div>
 
