@@ -74,6 +74,12 @@
     function changeForce(charge, gravity) {
         force.charge(charge).gravity(gravity);
     }
+
+    function changeForceByInput(){
+        var gravity = document.getElementById('gravity').value;
+        var charge = document.getElementById('charge').value;
+        changeForce(gravity,charge);
+    }
 </script>
 
 <div class="control-group">
@@ -92,6 +98,10 @@
     <button onclick="changeForce(-30, 0.1)">
         Gravity with Repulsion
     </button>    
+    <br>
+    gravity: <input type="text" id="gravity" value="-30">
+    charge: <input type="text" id="charge" value="0.1">
+    <button onclick="changeForceByInput()">Change</button>
 </div>
 
 </body>
